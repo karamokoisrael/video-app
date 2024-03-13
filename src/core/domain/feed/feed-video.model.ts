@@ -1,7 +1,9 @@
+import { UserProfile } from "../user/user-profile.model";
+
 export class FeedVideo {
     id!: string;
     url!: string;
-    username!: string;
+    profile!: UserProfile;
     avatar!: string;
     poster!: string;
     constructor(data?: FeedVideo) {
