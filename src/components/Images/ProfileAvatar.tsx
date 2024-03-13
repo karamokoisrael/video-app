@@ -6,10 +6,14 @@ type Props = {
   style?: StyleProp<Image>;
 };
 export default function ProfileAvatar({ size, source, style }: Props) {
+  const optionalStyle = style ? style : {};
   return (
     <Image
       source={source}
-      style={{...tw`w-${size || 16} h-${size || 16} rounded-full`, ...(style || {})}}
+      style={{
+        ...tw`w-${size || 16} h-${size || 16} rounded-full`,
+        ...optionalStyle,
+      }}
     />
   );
 }
