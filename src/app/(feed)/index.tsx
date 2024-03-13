@@ -1,60 +1,55 @@
-import { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
-import { Video, ResizeMode } from 'expo-av';
+import { useEffect, useRef, useState } from "react";
+import { View, FlatList, StyleSheet, Text } from "react-native";
+import { Video, ResizeMode } from "expo-av";
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from "@/configurations/constants/layout";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { generateRandomArray } from "@/libs/helpers/mock.helper";
+import { FeedVideo } from "@/core/domain/feed/feed-video.model";
 export default function Feed() {
-  const [videos, setVideos] = useState<any[]>([]);
+  // const videoRef = useRef(null);
+  const [videos, setVideos] = useState<FeedVideo[]>([]);
 
   useEffect(() => {
-    // Fetch videos from your backend or API
-    // Example: fetch('https://your-api.com/videos')
-    //   .then(response => response.json())
-    //   .then(data => setVideos(data))
-    //   .catch(error => console.error(error));
-
-    // For demonstration, using dummy data
-    const dummyData = [
-      {
-        id: 1,
-        url: "https://example.com/video1.mp4",
-        user: "user1",
-        avatar: "https://example.com/avatar1.jpg",
-      },
-      {
-        id: 2,
-        url: "https://example.com/video2.mp4",
-        user: "user2",
-        avatar: "https://example.com/avatar2.jpg",
-      },
-      // Add more video data as needed
-    ];
+    const dummyData: FeedVideo[] = generateRandomArray(10).map((i) => {
+      return {
+        id: `${i}`,
+        url: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+        username: `user${i + 1}`,
+        avatar: "https://picsum.photos/500/500",
+        poster: "https://picsum.photos/500/500",
+      };
+    });
     setVideos(dummyData);
   }, []);
 
   const renderItem = ({ item }: any) => (
     <View style={styles.videoContainer}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <Video
         source={{ uri: item.url }}
+        resizeMode={ResizeMode.STRETCH}
         style={styles.video}
-        resizeMode="cover"
         shouldPlay={false}
-        isLooping={false}
-      />
-      <Text style={styles.username}>{item.user}</Text>
+        isLooping={true}
+        usePoster={true}
+        posterSource={item.poster}
+      >
+        {/* <Image source={{ uri: item.avatar }} style={styles.avatar} /> */}
+        <Text style={styles.username}>{item.username}</Text>
+      </Video>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={videos}
         renderItem={renderItem}
-        keyExtractor={(item: any) => item.id.toString()}
+        keyExtractor={(item: FeedVideo) => item.id}
         pagingEnabled={true}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
+        // style={styles.listContainer}
+        showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -63,9 +58,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  listContainer: {},
   videoContainer: {
-    width: "100%",
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
+    display: "flex",
     alignItems: "center",
+    justifyContent: "center"
   },
   avatar: {
     width: 50,
@@ -74,8 +73,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   video: {
-    width: "100%",
-    height: 300,
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
   },
   username: {
     fontSize: 16,
