@@ -1,61 +1,41 @@
 import { WINDOW_HEIGHT, WINDOW_WIDTH } from "@/configurations/constants/layout";
 import { FeedVideo } from "@/core/domain/feed/feed-video.model";
-import tw from "@/styles/tailwind";
 import { Video, ResizeMode } from "expo-av";
-import { SafeAreaView, View, Text } from "react-native";
-import ProfileAvatar from "../Images/ProfileAvatar";
-import { generateRandomArray } from "@/libs/helpers/mock.helper";
-import { FontAwesome } from "@expo/vector-icons";
+import FeedHeaderVideo from "./FeedVideoHeader";
+import { KeyboardAvoidingView, SafeAreaView, View } from "react-native";
+import FeedVideoComments from "./FeedVideoComments";
+import FeedVideoControls from "./FeedVideoControls";
+import tw from "@/styles/tailwind";
+import FeedVideoCommentBox from "./FeedVideoCommentBox";
 type Props = {
   data: FeedVideo;
 };
 export default function FeedVideoItem({ data }: Readonly<Props>) {
   return (
-    <Video
-      source={{ uri: data.url }}
-      resizeMode={ResizeMode.STRETCH}
-      style={{
-        height: WINDOW_HEIGHT,
-        width: WINDOW_WIDTH,
-      }}
-      shouldPlay={false}
-      isLooping={true}
-      // usePoster={true}
-      // posterSource={{ uri: data.poster }}
-    >
-      <SafeAreaView
-        style={tw`flex justify-around flex-row items-center justify-around z-50 mt-8`}
+    <KeyboardAvoidingView>
+      <Video
+        source={{ uri: data.url }}
+        resizeMode={ResizeMode.STRETCH}
+        style={{
+          height: WINDOW_HEIGHT,
+          width: WINDOW_WIDTH,
+        }}
+        shouldPlay={false}
+        isLooping={true}
+        // usePoster={true}
+        // posterSource={{ uri: data.poster }}
       >
-        {/* Card Left Side */}
-        <View style={tw`flex-row items-center justify-center h-16 bg-red-100`}>
-          <ProfileAvatar style={tw`bg-red-100`} source={{ uri: data.avatar }} size={10} />
-          <View style={tw`flex pl-2 pl items-start justify-center bg-orange-100 h-full`}>
-            <Text style={tw`text-sm font-bold mt-5`}>
-              {data.profile.username}
-            </Text>
-            <Text style={tw`text-sm font-bold mt-5`}>
-              {data.profile.subtitle}
-            </Text>
-          </View>
+        <FeedHeaderVideo data={data} />
+        <View
+          style={tw`flex flex-row items-center justify-around h-100 z-50 h-80%`}
+        >
+          <FeedVideoComments data={data} />
+          <FeedVideoControls data={data} />
         </View>
-
-        {/* Card Right Side */}
-        <View style={tw`bg-red-100`}>
-          <View style={tw`flex flex-row`}>
-            {generateRandomArray(3).map((item) => (
-              <ProfileAvatar
-                key={item}
-                size={8}
-                source={{ uri: data.avatar }}
-              />
-            ))}
-          </View>
-          <View style={tw`flex flex-row items-center justify-around`}>
-            <Text style={tw`text-xl font-medium text-slate-900`}>174</Text>
-            <FontAwesome size={8} icon="close" />
-          </View>
+        <View style={tw`z-50 h-18 w-full flex items-center justify-center`}>
+          <FeedVideoCommentBox data={data} />
         </View>
-      </SafeAreaView>
-    </Video>
+      </Video>
+    </KeyboardAvoidingView>
   );
 }
