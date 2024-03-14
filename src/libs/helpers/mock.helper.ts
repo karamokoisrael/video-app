@@ -39,7 +39,7 @@ export function generateRandomVideoLink() {
     // const index = generateRandomNumber(0, videosLinks.length - 1);
     // console.log(index)
     // return videosLinks[index];
-    return "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    return "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
 }
 
 export function generateRandomImageLink() {

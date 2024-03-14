@@ -7,10 +7,18 @@ import FeedVideoComments from "./FeedVideoComments";
 import FeedVideoControls from "./FeedVideoControls";
 import tw from "@/styles/tailwind";
 import FeedVideoCommentBox from "./FeedVideoCommentBox";
+import { useCallback, useMemo } from "react";
+import { useVideoPlayerStore } from "@/stores/video-player.store";
 type Props = {
+  index: number;
   data: FeedVideo;
 };
-export default function FeedVideoItem({ data }: Readonly<Props>) {
+export default function FeedVideoItem({ index, data }: Readonly<Props>) {
+  const { currentVideoIndex } = useVideoPlayerStore();
+  const videoSelected = useMemo(() => {
+    return currentVideoIndex == index;
+  }, [currentVideoIndex]);
+
   return (
     <KeyboardAvoidingView>
       <Video
@@ -20,7 +28,7 @@ export default function FeedVideoItem({ data }: Readonly<Props>) {
           height: WINDOW_HEIGHT,
           width: WINDOW_WIDTH,
         }}
-        shouldPlay={false}
+        shouldPlay={videoSelected}
         isLooping={true}
         // usePoster={true}
         // posterSource={{ uri: data.poster }}
