@@ -1,5 +1,9 @@
 import tw from "@/styles/tailwind";
+import { Theme } from "@react-navigation/native";
 export const theme = {
+  font: {
+    fontFamily: 'SpaceMono'
+  },
   colors: {
     background: tw.color("bg-gray-100"),
     onBackground: tw.color("bg-gray-100"),
@@ -25,52 +29,31 @@ export const theme = {
   },
 };
 
-export const lightTheme = {
+export const lightTheme: Theme = {
   dark: false,
   colors: {
     primary: theme.colors.primary,
-    background: theme.colors.background,
+    background: theme.colors.background as string,
     card: theme.colors.primary,
     text: theme.colors.headerControls,
     border: theme.colors.transparent,
-    notification: theme.colors.primary,
-    tint: theme.colors.headerControls,
-    headerTintColor: theme.colors.headerControls,
+    notification: theme.colors.primary
   },
 };
 
-export const darkTheme = {
+export const darkTheme: Theme = {
   // dark: true,
   dark: false,
   colors: {
     ...lightTheme.colors,
     primary: theme.colors.primary,
-    background: theme.colors.background,
-    card: theme.colors.background,
+    background: theme.colors.background as string,
+    card: theme.colors.background as string,
     text: theme.colors.headerControls,
     border: theme.colors.dark,
     notification: theme.colors.primary,
   },
 };
 
-// const tintColorLight = '#2f95dc';
-// const tintColorDark = '#fff';
-
-// export default {
-//   light: {
-//     text: '#000',
-//     background: '#fff',
-//     tint: tintColorLight,
-//     tabIconDefault: '#ccc',
-//     tabIconSelected: tintColorLight,
-//   },
-//   dark: {
-//     text: '#fff',
-//     background: '#000',
-//     tint: tintColorDark,
-//     tabIconDefault: '#ccc',
-//     tabIconSelected: tintColorDark,
-//   },
-// };
 
 export default theme;

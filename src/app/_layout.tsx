@@ -23,6 +23,7 @@ import SnackbarProvider from "@/components/Snackbar/SnackBarProvider";
 import { configRnuiLibTheme } from "@/styles/rnuilib-foundation.config";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { injectDependencies } from "@/ioc/ioc-manager";
+import { darkTheme, lightTheme } from "@/configurations/constants/theme";
 
 require("react-native-ui-lib/config").setConfig({ appScheme: "default" });
 
@@ -89,7 +90,7 @@ function RootLayoutNav() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={colorScheme === "dark" ? darkTheme : lightTheme}>
         <SnackbarProvider>
           {loading ? (
             <PreLoader />
