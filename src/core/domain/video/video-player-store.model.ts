@@ -1,4 +1,4 @@
 export interface VideoPlayerStore {
-    currentVideoIndex: number;
-    setCurrentVideoIndex: (index: number) => void;
+    currentVideoKey: string;
+    setCurrentVideoKey: (key: string) => void;
 }

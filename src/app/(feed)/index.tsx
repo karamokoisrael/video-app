@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 import {
   generateRandomArray,
@@ -10,14 +10,11 @@ import { UserProfile } from "@/core/domain/user/user-profile.model";
 import FeedVideoItem from "@/components/Feed/FeedVideoItem";
 import { useVideoPlayerStore } from "@/stores/video-player.store";
 export default function Feed() {
-  // const videoRef = useRef(null);
-
   const [videos, setVideos] = useState<FeedVideo[]>([]);
-  const { setCurrentVideoIndex } = useVideoPlayerStore();
+  const { setCurrentVideoKey } = useVideoPlayerStore();
   const onViewableItemsChanged = ({ viewableItems }: any) => {
-    if (viewableItems[0] && viewableItems[0]?.index) {
-      console.log(viewableItems[0]);
-      setCurrentVideoIndex(viewableItems[0].index);
+    if (viewableItems[0] && viewableItems[0]?.item) {
+      setCurrentVideoKey(viewableItems[0].item.id);
     }
   };
   const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
@@ -41,9 +38,7 @@ export default function Feed() {
   return (
     <FlatList
       data={videos}
-      renderItem={({ item, index }) => (
-        <FeedVideoItem index={index} data={item} />
-      )}
+      renderItem={({ item, index }) => <FeedVideoItem data={item} />}
       keyExtractor={(item: FeedVideo) => item.id}
       pagingEnabled={true}
       showsVerticalScrollIndicator={false}
