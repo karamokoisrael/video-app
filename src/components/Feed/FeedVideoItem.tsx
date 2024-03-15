@@ -20,11 +20,12 @@ export default function FeedVideoItem({ data }: Readonly<Props>) {
   }, [currentVideoKey]);
 
   return (
-    <KeyboardAvoidingView>
+    <View>
       <Video
         source={{ uri: data.url }}
         resizeMode={ResizeMode.STRETCH}
         style={{
+          ...tw`absolute`,
           height: WINDOW_HEIGHT,
           width: WINDOW_WIDTH,
         }}
@@ -32,6 +33,13 @@ export default function FeedVideoItem({ data }: Readonly<Props>) {
         isLooping={true}
         // usePoster={true}
         // posterSource={{ uri: data.poster }}
+      ></Video>
+      <KeyboardAvoidingView
+        style={{
+          ...tw``,
+          height: WINDOW_HEIGHT,
+          width: WINDOW_WIDTH,
+        }}
       >
         <FeedHeaderVideo data={data} />
         <View
@@ -43,7 +51,7 @@ export default function FeedVideoItem({ data }: Readonly<Props>) {
         <View style={tw`z-50 h-18 w-full flex items-center justify-center`}>
           <FeedVideoCommentBox data={data} />
         </View>
-      </Video>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
